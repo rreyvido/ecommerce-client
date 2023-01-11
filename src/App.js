@@ -1,16 +1,15 @@
 import logo from "./logo.svg";
 import "./App.css";
-import Navbar from "./components/Navbar";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Landing from "./pages/Landing";
-import Login from "./pages/Login";
 import ArticleList from "./pages/ArticleList";
-import Register from "./pages/Register";
 import { ProductList, Product } from "./pages/Product";
 import NotFound from "./pages/NotFound";
 import Checkout from "./pages/Checkout";
 import Dashboard from "./adminPages/Dashboard";
 import Success from "./pages/Success";
+import Order from "./pages/Order";
+import { Login, Profile, Register } from "./pages/Auth";
 
 function App() {
   return (
@@ -21,6 +20,7 @@ function App() {
           <Route index element={<Landing />} />
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
+          <Route path="profile" element={<Profile />} />
           <Route path="article">
             <Route path="" element={<ArticleList />} />
           </Route>
@@ -30,6 +30,7 @@ function App() {
           </Route>
           <Route path="checkout" element={<Checkout />} />
           <Route path="success" element={<Success />} />
+          <Route path="order" element={<Order />} />
         </Route>
         <Route path="/dashboard">
           <Route index element={<Dashboard />} />

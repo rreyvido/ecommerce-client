@@ -252,6 +252,9 @@ export const CheckoutForm = () => {
   const [bill, setBill] = useState([]);
   const [inputs, setInputs] = useState(0);
 
+  const [isDisabled, setIsDisabled] = useState(true);
+  const [isChecked, setIsChecked] = useState(true);
+
   let navigate = useNavigate();
   let dispatch = useDispatch();
 
@@ -273,6 +276,11 @@ export const CheckoutForm = () => {
     });
   };
 
+  const checkHandler = () => {
+    setIsChecked(!isChecked);
+    setIsDisabled(!isDisabled);
+  };
+
   useEffect(() => {
     getCart();
   }, []);
@@ -291,6 +299,22 @@ export const CheckoutForm = () => {
             <h2 className="mb-4 font-bold md:text-xl text-heading ">
               Shipping Address
             </h2>
+            <div class="flex items-center">
+              <input
+                checked={isChecked}
+                onChange={checkHandler}
+                id="checked-checkbox"
+                type="checkbox"
+                value=""
+                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+              />
+              <label
+                for="checked-checkbox"
+                class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+              >
+                Same as my current information
+              </label>
+            </div>
             <form className="justify-center w-full mx-auto">
               <div className="">
                 <div className="mt-4">
@@ -301,6 +325,7 @@ export const CheckoutForm = () => {
                     <input
                       defaultValue={currentUser.data.name}
                       onChange={handleChange}
+                      disabled={isDisabled}
                       name="name"
                       type="text"
                       placeholder="Name"
@@ -316,6 +341,7 @@ export const CheckoutForm = () => {
                     <input
                       defaultValue={currentUser.data.email}
                       onChange={handleChange}
+                      disabled={isDisabled}
                       name="email"
                       type="text"
                       placeholder="Email"
@@ -333,6 +359,7 @@ export const CheckoutForm = () => {
                       <textarea
                         defaultValue={currentUser.data.address}
                         onChange={handleChange}
+                        disabled={isDisabled}
                         className="w-full px-4 py-3 text-xs border border-gray-300 rounded lg:text-sm focus:outline-none focus:ring-1 focus:ring-blue-600"
                         name="address"
                         cols="20"
@@ -349,6 +376,7 @@ export const CheckoutForm = () => {
                       <input
                         defaultValue={currentUser.data.city}
                         onChange={handleChange}
+                        disabled={isDisabled}
                         name="city"
                         type="text"
                         placeholder="City"
@@ -362,6 +390,7 @@ export const CheckoutForm = () => {
                       <input
                         defaultValue={currentUser.data.zip}
                         onChange={handleChange}
+                        disabled={isDisabled}
                         name="zip"
                         type="text"
                         placeholder="Post Code"
@@ -371,12 +400,26 @@ export const CheckoutForm = () => {
                   </div>
                 </div>
                 <div className="mt-4">
-                  <button
-                    onClick={handleCheckout}
-                    className="w-full px-6 py-2 text-blue-200 bg-blue-600 hover:bg-blue-900"
-                  >
-                    Checkout
-                  </button>
+                  {cart ? (
+                    <>
+                      <button
+                        onClick={handleCheckout}
+                        className="w-full px-6 py-2 text-blue-200 bg-blue-600 hover:bg-blue-900"
+                      >
+                        Checkout
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      <button
+                        disabled
+                        onClick={handleCheckout}
+                        className="w-full px-6 py-2 text-blue-200 bg-blue-600 opacity-40 cursor-not-allowed"
+                      >
+                        Checkout
+                      </button>
+                    </>
+                  )}
                 </div>
               </div>
             </form>
@@ -413,4 +456,8 @@ export const CheckoutForm = () => {
       </div>
     </div>
   );
+};
+
+export const ProfileForm = () => {
+  return <>nanti</>;
 };
