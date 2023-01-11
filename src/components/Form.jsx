@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { loginStart, loginSuccess, loginFailed } from "../redux/userSlice";
@@ -248,6 +248,12 @@ export const RegisterForm = () => {
 export const CheckoutForm = () => {
   const { currentUser } = useSelector((state) => state.user);
 
+  const nameRef = useRef(null);
+  const emailRef = useRef(null);
+  const addressRef = useRef(null);
+  const cityRef = useRef(null);
+  const zipRef = useRef(null);
+
   const [cart, setCart] = useState([]);
   const [bill, setBill] = useState([]);
   const [inputs, setInputs] = useState(0);
@@ -287,8 +293,26 @@ export const CheckoutForm = () => {
 
   const handleCheckout = async (e) => {
     e.preventDefault();
-    // const res = await axios.post(API_URL + `/checkout/${currentUser.data._id}`, inputs);
-    navigate("/success");
+    const name = nameRef.current.value;
+    const mail = emailRef.current.value;
+    const address = addressRef.current.value;
+    const city = cityRef.current.value;
+    const zip = zipRef.current.value;
+    const credentials = { name, mail, address, city, zip };
+    console.log(credentials);
+    await axios
+      .post(
+        process.env.REACT_APP_API_URL +
+          `/order/checkout/${currentUser.data._id}`,
+        credentials
+      )
+      .then((response) => {
+        alert(response.data.message);
+        navigate("/success");
+      })
+      .catch((error) => {
+        alert(error.response.data.message);
+      });
   };
 
   return (
@@ -299,18 +323,18 @@ export const CheckoutForm = () => {
             <h2 className="mb-4 font-bold md:text-xl text-heading ">
               Shipping Address
             </h2>
-            <div class="flex items-center">
+            <div className="flex items-center">
               <input
                 checked={isChecked}
                 onChange={checkHandler}
                 id="checked-checkbox"
                 type="checkbox"
                 value=""
-                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
               />
               <label
                 for="checked-checkbox"
-                class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
               >
                 Same as my current information
               </label>
@@ -326,6 +350,7 @@ export const CheckoutForm = () => {
                       defaultValue={currentUser.data.name}
                       onChange={handleChange}
                       disabled={isDisabled}
+                      ref={nameRef}
                       name="name"
                       type="text"
                       placeholder="Name"
@@ -342,6 +367,7 @@ export const CheckoutForm = () => {
                       defaultValue={currentUser.data.email}
                       onChange={handleChange}
                       disabled={isDisabled}
+                      ref={emailRef}
                       name="email"
                       type="text"
                       placeholder="Email"
@@ -360,6 +386,7 @@ export const CheckoutForm = () => {
                         defaultValue={currentUser.data.address}
                         onChange={handleChange}
                         disabled={isDisabled}
+                        ref={addressRef}
                         className="w-full px-4 py-3 text-xs border border-gray-300 rounded lg:text-sm focus:outline-none focus:ring-1 focus:ring-blue-600"
                         name="address"
                         cols="20"
@@ -377,6 +404,7 @@ export const CheckoutForm = () => {
                         defaultValue={currentUser.data.city}
                         onChange={handleChange}
                         disabled={isDisabled}
+                        ref={cityRef}
                         name="city"
                         type="text"
                         placeholder="City"
@@ -391,6 +419,7 @@ export const CheckoutForm = () => {
                         defaultValue={currentUser.data.zip}
                         onChange={handleChange}
                         disabled={isDisabled}
+                        ref={zipRef}
                         name="zip"
                         type="text"
                         placeholder="Post Code"

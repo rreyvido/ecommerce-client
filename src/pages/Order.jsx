@@ -11,7 +11,7 @@ const Order = () => {
 
   const getOrderList = async () => {
     const { data } = await axios.get(
-      process.env.REACT_APP_LOCAL_API_URL + `/order/${currentUser.data._id}`
+      process.env.REACT_APP_API_URL + `/order/${currentUser.data._id}`
     );
 
     if (data) {
