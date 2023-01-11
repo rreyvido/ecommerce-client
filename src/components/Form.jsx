@@ -132,7 +132,7 @@ export const RegisterForm = () => {
     };
 
     await axios
-      .post("http://localhost:5000/user/register", credentials)
+      .post(process.env.REACT_APP_API_URL + "/user/register", credentials)
       .then((response) => {
         if (response.data.role === "admin") {
           navigate("/dashboard");
