@@ -1,12 +1,14 @@
 import axios from "axios";
-import { ProductCard } from "../components/Card";
+import { ProductCard, SingleProductCard } from "../components/Card";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
 
 const API_URL = "http://localhost:5000";
 
-const ProductList = () => {
+export const ProductList = () => {
   const [product, setProduct] = useState([]);
 
   const fetchProduct = async () => {
@@ -43,4 +45,26 @@ const ProductList = () => {
   );
 };
 
-export default ProductList;
+export const Product = () => {
+  const { currentUser } = useSelector((state) => state.user);
+
+  const path = useLocation().pathname.split("/")[2];
+  const [product, setProduct] = useState({});
+
+  const getProduct = async () => {
+    const { data } = await axios.get(API_URL + `/product/${path}`);
+    setProduct(data);
+  };
+  getProduct();
+
+  useEffect(() => {
+    getProduct();
+  }, [path]);
+  return (
+    <>
+      <Navbar />
+      <SingleProductCard product={product} />
+      <Footer />
+    </>
+  );
+};

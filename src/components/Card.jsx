@@ -1,4 +1,9 @@
-import { Link } from "react-router-dom";
+import axios from "axios";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useLocation } from "react-router-dom";
+
+const API_URL = "http://localhost:5000";
 
 export const Card = () => {
   return (
@@ -101,5 +106,193 @@ export const ProductCard = ({ product }) => {
         </div>
       </div>
     </div>
+  );
+};
+
+export const SingleProductCard = ({ product }) => {
+  const { currentUser } = useSelector((state) => state.user);
+  const location = useLocation();
+  const id = location.pathname.split("/")[2];
+  const [quantity, setQuantity] = useState(1);
+
+  const handleQuantity = (type) => {
+    if (type === "dec") {
+      quantity > 1 && setQuantity(quantity - 1);
+    } else {
+      setQuantity(quantity + 1);
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const resp = await axios.post(API_URL + `/cart/`, {
+        owner: currentUser.data._id,
+        productId: id,
+        quantity: quantity,
+      });
+      alert("added to cart");
+    } catch (error) {
+      console.log(error.response);
+      console.log(currentUser.data._id);
+    }
+  };
+  return (
+    <section class="text-gray-700 body-font overflow-hidden bg-white">
+      <div class="container px-5 py-24 mx-auto">
+        <div class="lg:w-4/5 mx-auto flex flex-wrap">
+          <img
+            alt="ecommerce"
+            class="lg:w-1/2 w-full object-cover object-center rounded border border-gray-200"
+            src={product.img}
+          />
+          <div class="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
+            <h2 class="text-sm title-font text-gray-500 tracking-widest">
+              BODIMAJI
+            </h2>
+            <h1 class="text-gray-900 text-3xl title-font font-medium mb-1">
+              {product.name}
+            </h1>
+            <div class="flex mb-4">
+              <span class="flex items-center">
+                <svg
+                  fill="currentColor"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  class="w-4 h-4 text-red-500"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+                </svg>
+                <svg
+                  fill="currentColor"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  class="w-4 h-4 text-red-500"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+                </svg>
+                <svg
+                  fill="currentColor"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  class="w-4 h-4 text-red-500"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+                </svg>
+                <svg
+                  fill="currentColor"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  class="w-4 h-4 text-red-500"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+                </svg>
+                <svg
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  class="w-4 h-4 text-red-500"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+                </svg>
+                <span class="text-gray-600 ml-3 underline cursor-pointer">
+                  4 Reviews
+                </span>
+              </span>
+            </div>
+            <p class="leading-relaxed">{product.description}</p>
+
+            {product.countInStock > 0 ? (
+              <p class="leading-relaxed text-gray-400 cursor-default">
+                In Stock ({product.countInStock})
+              </p>
+            ) : (
+              <p class="leading-relaxed text-gray-400 cursor-default">
+                Out of Stock
+              </p>
+            )}
+            <div class="flex mt-6 items-center pb-5 border-b-2 border-gray-200 mb-5">
+              <div class="flex">
+                <span class="mr-3">Color</span>
+                <button class="border-2 border-gray-300 rounded-full w-6 h-6 focus:outline-none"></button>
+                <button class="border-2 border-gray-300 ml-1 bg-gray-700 rounded-full w-6 h-6 focus:outline-none"></button>
+                <button class="border-2 border-gray-300 ml-1 bg-red-500 rounded-full w-6 h-6 focus:outline-none"></button>
+              </div>
+              <div class="flex ml-6 items-center">
+                <span class="mr-3">Quantity</span>
+                <div class="relative">
+                  <div class="flex flex-row h-10 w-32 rounded-lg relative bg-transparent mt-1">
+                    <button class=" bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-full w-20 rounded-l cursor-pointer outline-none">
+                      <span
+                        class="m-auto text-2xl font-thin"
+                        onClick={() => handleQuantity("dec")}
+                      >
+                        −
+                      </span>
+                    </button>
+                    <span class="justify-center focus:outline-none text-center w-full bg-gray-300 font-semibold text-md hover:text-black focus:text-black  md:text-basecursor-default flex items-center text-gray-700  outline-none">
+                      {quantity}
+                    </span>
+                    <button class="bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-full w-20 rounded-r cursor-pointer">
+                      <span
+                        class="m-auto text-2xl font-thin"
+                        onClick={() => handleQuantity("inc")}
+                      >
+                        +
+                      </span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="flex">
+              <span class="title-font font-medium text-2xl text-gray-900">
+                Rp{product.price}
+              </span>
+
+              {product.countInStock > 0 ? (
+                <button
+                  class="flex ml-auto text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded"
+                  onClick={handleSubmit}
+                >
+                  Add to Cart
+                </button>
+              ) : (
+                <button class="flex ml-auto text-white bg-gray-200 border-0 py-2 px-6 focus:outline-none rounded disabled:opacity-40 cursor-not-allowed">
+                  Add to Cart
+                </button>
+              )}
+              <button class="rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center text-gray-500 ml-4">
+                <svg
+                  fill="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  class="w-5 h-5"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"></path>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   );
 };

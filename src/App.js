@@ -6,7 +6,7 @@ import Landing from "./pages/Landing";
 import Login from "./pages/Login";
 import ArticleList from "./pages/ArticleList";
 import Register from "./pages/Register";
-import ProductList from "./pages/ProductList";
+import { ProductList, Product } from "./pages/Product";
 import NotFound from "./pages/NotFound";
 import Checkout from "./pages/Checkout";
 import Dashboard from "./adminPages/Dashboard";
@@ -26,6 +26,7 @@ function App() {
           </Route>
           <Route path="product">
             <Route path="" element={<ProductList />} />
+            <Route path=":id" element={<Product />} />
           </Route>
           <Route path="checkout" element={<Checkout />} />
           <Route path="success" element={<Success />} />
