@@ -6,13 +6,13 @@ import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 
-const API_URL = "http://localhost:5000";
-
 export const ProductList = () => {
   const [product, setProduct] = useState([]);
 
   const fetchProduct = async () => {
-    const { data } = await axios.get(API_URL + "/product");
+    const { data } = await axios.get(
+      process.env.REACT_APP_API_URL + "/product"
+    );
     setProduct(data);
   };
 
@@ -52,7 +52,9 @@ export const Product = () => {
   const [product, setProduct] = useState({});
 
   const getProduct = async () => {
-    const { data } = await axios.get(API_URL + `/product/${path}`);
+    const { data } = await axios.get(
+      process.env.REACT_APP_API_URL + `/product/${path}`
+    );
     setProduct(data);
   };
   getProduct();

@@ -3,8 +3,6 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 
-const API_URL = "http://localhost:5000";
-
 export const Card = () => {
   return (
     <div className="mx-auto max-w-md overflow-hidden rounded-lg bg-white shadow">
@@ -126,7 +124,7 @@ export const SingleProductCard = ({ product }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const resp = await axios.post(API_URL + `/cart/`, {
+      const resp = await axios.post(process.env.REACT_APP_API_URL + `/cart/`, {
         owner: currentUser.data._id,
         productId: id,
         quantity: quantity,

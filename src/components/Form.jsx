@@ -5,8 +5,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { loginStart, loginSuccess, loginFailed } from "../redux/userSlice";
 import { CheckoutCard } from "./Card";
 
-const API_URL = "http://localhost:5000";
-
 export const LoginForm = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -22,7 +20,7 @@ export const LoginForm = () => {
       password,
     };
     await axios
-      .post(API_URL + `/user/login`, credentials)
+      .post(process.env.REACT_APP_API_URL + `/user/login`, credentials)
       .then((response) => {
         if (response.data.role === "admin") {
           dispatch(loginSuccess(response));
@@ -258,7 +256,9 @@ export const CheckoutForm = () => {
   let dispatch = useDispatch();
 
   const getCart = async () => {
-    const { data } = await axios.get(API_URL + `/cart/${currentUser.data._id}`);
+    const { data } = await axios.get(
+      process.env.REACT_APP_API_URL + `/cart/${currentUser.data._id}`
+    );
 
     if (data) {
       setCart(data.products);

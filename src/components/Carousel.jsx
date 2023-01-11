@@ -3,8 +3,6 @@ import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Card, ImageCard } from "./Card";
 
-const API_URL = "http://localhost:5000";
-
 export const ArticleCarousel = () => {
   return (
     <div className="px-6 py-12 md:px-12 bg-gray-50 text-gray-800 text-center lg:text-left">
@@ -42,7 +40,9 @@ export const ProductCarousel = () => {
   const [product, setProduct] = useState([]);
 
   const fetchProduct = async () => {
-    const { data } = await axios.get(API_URL + "/product");
+    const { data } = await axios.get(
+      process.env.REACT_APP_API_URL + "/product"
+    );
     setProduct(data);
   };
 
