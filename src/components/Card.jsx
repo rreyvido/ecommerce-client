@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 export const Card = () => {
   return (
@@ -296,6 +296,22 @@ export const SingleProductCard = ({ product }) => {
 };
 
 export const CheckoutCard = ({ cartItem }) => {
+  const { currentUser } = useSelector((state) => state.user);
+
+  const handleDelete = async (e) => {
+    e.preventDefault();
+    try {
+      const resp = await axios.delete(
+        process.env.REACT_APP_API_URL + `/cart/`,
+        {
+          data: { _id: currentUser.data._id, productId: cartItem.productId },
+        }
+      );
+      alert("product deleted from cart");
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div className="flex flex-col space-y-4">
       <div className="flex space-x-4">
@@ -312,6 +328,7 @@ export const CheckoutCard = ({ cartItem }) => {
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
+            onClick={handleDelete}
           >
             <path
               strokeLinecap="round"
