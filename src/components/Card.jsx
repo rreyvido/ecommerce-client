@@ -135,7 +135,7 @@ export const SingleProductCard = ({ product }) => {
     }
   };
   return (
-    <section className="text-gray-700 body-font overflow-hidden bg-white">
+    <section className="text-gray-700 body-font overflow-hidden bg-white rounded-lg">
       <div className="container px-5 py-24 mx-auto">
         <div className="lg:w-4/5 mx-auto flex flex-wrap">
           <img

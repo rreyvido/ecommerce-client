@@ -320,8 +320,8 @@ export const CheckoutForm = () => {
   };
 
   return (
-    <div className="bg-gray-50">
-      <div className="container p-12 mx-auto ">
+    <div className="text-gray-700 body-font overflow-hidden bg-white rounded-lg">
+      <div className="container p-12 mx-auto">
         {isLoading ? (
           <CircleLoading />
         ) : (
@@ -522,189 +522,187 @@ export const ProfileForm = () => {
   };
 
   return (
-    <>
-      <div className="px-6 py-12 md:px-12 bg-gray-50 text-gray-800 text-center lg:text-left">
-        <div className="container mx-auto xl:px-32">
-          <div className="grid lg:grid-cols-2 gap-12 flex-nowrap">
-            <div className="mt-12 lg:mt-0">
-              <h1 className="text-5xl md:text-6xl xl:text-7xl font-bold tracking-tight mb-12">
-                My Profile
-                <br />
-              </h1>
-            </div>
+    <div className="px-6 py-20 md:px-12 bg-gray-50 text-gray-800 text-center lg:text-left">
+      <div className="container mx-auto xl:px-32">
+        <div className="grid lg:grid-cols-2 gap-12 flex-nowrap">
+          <div className="mt-12 lg:mt-0">
+            <h1 className="text-5xl md:text-6xl xl:text-7xl font-bold tracking-tight mb-12">
+              My Profile
+              <br />
+            </h1>
           </div>
-          {isLoading ? (
-            <CircleLoading />
-          ) : (
-            <div className="mt-10 sm:mt-0">
-              <div className="md:grid md:grid-cols-3 md:gap-6">
-                <div className="md:col-span-1">
-                  <div className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">
-                    <div className="flex flex-col items-center pb-10">
-                      <img
-                        className="w-24 h-24 mb-3 rounded-full shadow-lg"
-                        src={currentUser.data.photo}
-                        alt={currentUser.data.name}
-                      />
-                      <h5 className="mb-1 text-xl font-medium text-gray-900 dark:text-white">
-                        {currentUser.data.name}
-                      </h5>
-                      <span className="text-sm text-gray-500 dark:text-gray-400">
-                        {currentUser.data.role}
-                      </span>
-                      <div className="flex mt-4 space-x-3 md:mt-6">
-                        <label className="inline-block px-7 py-3 mr-2 bg-black text-white font-medium text-sm leading-snug uppercase rounded shadow-md hover:bg-red-900 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 active:shadow-lg transition duration-150 ease-in-out">
-                          <span>Change Picture</span>
-                          <input
-                            id="file-upload"
-                            name="file-upload"
-                            type="file"
-                            className="sr-only"
-                          />
-                        </label>
-                      </div>
+        </div>
+        {isLoading ? (
+          <CircleLoading />
+        ) : (
+          <div className="mt-10 sm:mt-0">
+            <div className="md:grid md:grid-cols-3 md:gap-6">
+              <div className="md:col-span-1">
+                <div className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">
+                  <div className="flex flex-col items-center pb-10">
+                    <img
+                      className="w-24 h-24 mb-3 rounded-full shadow-lg"
+                      src={currentUser.data.photo}
+                      alt={currentUser.data.name}
+                    />
+                    <h5 className="mb-1 text-xl font-medium text-gray-900 dark:text-white">
+                      {currentUser.data.name}
+                    </h5>
+                    <span className="text-sm text-gray-500 dark:text-gray-400">
+                      {currentUser.data.role}
+                    </span>
+                    <div className="flex mt-4 space-x-3 md:mt-6">
+                      <label className="inline-block px-7 py-3 mr-2 bg-black text-white font-medium text-sm leading-snug uppercase rounded shadow-md hover:bg-red-900 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 active:shadow-lg transition duration-150 ease-in-out">
+                        <span>Change Picture</span>
+                        <input
+                          id="file-upload"
+                          name="file-upload"
+                          type="file"
+                          className="sr-only"
+                        />
+                      </label>
                     </div>
                   </div>
                 </div>
-                <div className="mt-5 md:mt-0 md:col-span-2">
-                  <form action="#" method="POST">
-                    <div className="shadow overflow-hidden sm:rounded-md">
-                      <div className="px-4 py-5 bg-white sm:p-6">
-                        <div className="grid grid-cols-6 gap-6">
-                          <div className="col-span-6 sm:col-span-3">
-                            <label className="block text-sm font-medium text-gray-700">
-                              Name
-                            </label>
-                            <input
-                              defaultValue={currentUser.data.name}
-                              ref={nameRef}
-                              name="name"
-                              type="text"
-                              placeholder="Name"
-                              className="w-full px-4 py-3 text-sm border border-gray-300 rounded lg:text-sm"
-                            />
-                          </div>
+              </div>
+              <div className="mt-5 md:mt-0 md:col-span-2">
+                <form action="#" method="POST">
+                  <div className="shadow overflow-hidden sm:rounded-md">
+                    <div className="px-4 py-5 bg-white sm:p-6">
+                      <div className="grid grid-cols-6 gap-6">
+                        <div className="col-span-6 sm:col-span-3">
+                          <label className="block text-sm font-medium text-gray-700">
+                            Name
+                          </label>
+                          <input
+                            defaultValue={currentUser.data.name}
+                            ref={nameRef}
+                            name="name"
+                            type="text"
+                            placeholder="Name"
+                            className="w-full px-4 py-3 text-sm border border-gray-300 rounded lg:text-sm"
+                          />
+                        </div>
 
-                          <div className="col-span-6 sm:col-span-3">
-                            <label className="block text-sm font-medium text-gray-700">
-                              Username
-                            </label>
-                            <input
-                              defaultValue={currentUser.data.username}
-                              ref={userRef}
-                              disabled
-                              name="username"
-                              type="text"
-                              placeholder="Username"
-                              className="w-full px-4 py-3 text-sm border border-gray-300 rounded lg:text-sm"
-                            />
-                            <label className="block text-sm font-light text-gray-400 cursor-pointer">
-                              change username
-                            </label>
-                          </div>
+                        <div className="col-span-6 sm:col-span-3">
+                          <label className="block text-sm font-medium text-gray-700">
+                            Username
+                          </label>
+                          <input
+                            defaultValue={currentUser.data.username}
+                            ref={userRef}
+                            disabled
+                            name="username"
+                            type="text"
+                            placeholder="Username"
+                            className="w-full px-4 py-3 text-sm border border-gray-300 rounded lg:text-sm"
+                          />
+                          <label className="block text-sm font-light text-gray-400 cursor-pointer">
+                            change username
+                          </label>
+                        </div>
 
-                          <div className="col-span-6 sm:col-span-6">
-                            <label className="block text-sm font-medium text-gray-700">
-                              Email
-                            </label>
-                            <input
-                              defaultValue={currentUser.data.email}
-                              name="email"
-                              type="text"
-                              placeholder="Email"
-                              ref={emailRef}
-                              className="mt-1 block w-full px-4 py-3 text-sm border border-gray-300 rounded lg:text-sm"
-                            />
-                          </div>
-                          <div className="col-span-6">
-                            <label
-                              htmlFor="street_address"
-                              className="block text-sm font-medium text-gray-700"
-                            >
-                              Address
-                            </label>
-                            <textarea
-                              defaultValue={currentUser.data.address}
-                              ref={addressRef}
-                              type="text"
-                              name="street_address"
-                              id="street_address"
-                              placeholder="Address"
-                              autoComplete="street-address"
-                              className="w-full px-4 py-3 text-sm border border-gray-300 rounded lg:text-sm"
-                            />
-                          </div>
+                        <div className="col-span-6 sm:col-span-6">
+                          <label className="block text-sm font-medium text-gray-700">
+                            Email
+                          </label>
+                          <input
+                            defaultValue={currentUser.data.email}
+                            name="email"
+                            type="text"
+                            placeholder="Email"
+                            ref={emailRef}
+                            className="mt-1 block w-full px-4 py-3 text-sm border border-gray-300 rounded lg:text-sm"
+                          />
+                        </div>
+                        <div className="col-span-6">
+                          <label
+                            htmlFor="street_address"
+                            className="block text-sm font-medium text-gray-700"
+                          >
+                            Address
+                          </label>
+                          <textarea
+                            defaultValue={currentUser.data.address}
+                            ref={addressRef}
+                            type="text"
+                            name="street_address"
+                            id="street_address"
+                            placeholder="Address"
+                            autoComplete="street-address"
+                            className="w-full px-4 py-3 text-sm border border-gray-300 rounded lg:text-sm"
+                          />
+                        </div>
 
-                          <div className="col-span-6 sm:col-span-6 lg:col-span-3">
-                            <label className="block text-sm font-medium text-gray-700">
-                              City
-                            </label>
-                            <input
-                              defaultValue={currentUser.data.city}
-                              ref={cityRef}
-                              type="text"
-                              name="city"
-                              id="city"
-                              placeholder="City"
-                              className="w-full px-4 py-3 text-sm border border-gray-300 rounded lg:text-sm"
-                            />
-                          </div>
+                        <div className="col-span-6 sm:col-span-6 lg:col-span-3">
+                          <label className="block text-sm font-medium text-gray-700">
+                            City
+                          </label>
+                          <input
+                            defaultValue={currentUser.data.city}
+                            ref={cityRef}
+                            type="text"
+                            name="city"
+                            id="city"
+                            placeholder="City"
+                            className="w-full px-4 py-3 text-sm border border-gray-300 rounded lg:text-sm"
+                          />
+                        </div>
 
-                          <div className="col-span-6 sm:col-span-3 lg:col-span-3">
-                            <label
-                              htmlFor="postal_code"
-                              className="block text-sm font-medium text-gray-700"
-                            >
-                              ZIP / Postal
-                            </label>
-                            <input
-                              defaultValue={currentUser.data.zip}
-                              ref={zipRef}
-                              type="text"
-                              name="postal_code"
-                              id="postal_code"
-                              autoComplete="postal-code"
-                              placeholder="ZIP"
-                              className="w-full px-4 py-3 text-sm border border-gray-300 rounded lg:text-sm"
-                            />
-                          </div>
-                          <div className="col-span-6 sm:col-span-3 lg:col-span-3">
-                            <label
-                              htmlFor="postal_code"
-                              className="block text-sm font-medium text-gray-700"
-                            >
-                              Password
-                            </label>
-                            <input
-                              disabled
-                              defaultValue={currentUser.data.password}
-                              ref={passwordRef}
-                              type="password"
-                              className="w-full px-4 py-3 text-sm border border-gray-300 rounded lg:text-sm"
-                            />
-                            <label className="block text-sm font-light text-gray-400 cursor-pointer">
-                              change password
-                            </label>
-                          </div>
+                        <div className="col-span-6 sm:col-span-3 lg:col-span-3">
+                          <label
+                            htmlFor="postal_code"
+                            className="block text-sm font-medium text-gray-700"
+                          >
+                            ZIP / Postal
+                          </label>
+                          <input
+                            defaultValue={currentUser.data.zip}
+                            ref={zipRef}
+                            type="text"
+                            name="postal_code"
+                            id="postal_code"
+                            autoComplete="postal-code"
+                            placeholder="ZIP"
+                            className="w-full px-4 py-3 text-sm border border-gray-300 rounded lg:text-sm"
+                          />
+                        </div>
+                        <div className="col-span-6 sm:col-span-3 lg:col-span-3">
+                          <label
+                            htmlFor="postal_code"
+                            className="block text-sm font-medium text-gray-700"
+                          >
+                            Password
+                          </label>
+                          <input
+                            disabled
+                            defaultValue={currentUser.data.password}
+                            ref={passwordRef}
+                            type="password"
+                            className="w-full px-4 py-3 text-sm border border-gray-300 rounded lg:text-sm"
+                          />
+                          <label className="block text-sm font-light text-gray-400 cursor-pointer">
+                            change password
+                          </label>
                         </div>
                       </div>
-                      <div className="px-4 py-3 bg-gray-50 text-right sm:px-6">
-                        <button
-                          onClick={handleUpdate}
-                          type="submit"
-                          className="inline-block px-7 py-3 mr-2 bg-black text-white font-medium text-sm leading-snug uppercase rounded shadow-md hover:bg-red-900 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 active:shadow-lg transition duration-150 ease-in-out"
-                        >
-                          Save
-                        </button>
-                      </div>
                     </div>
-                  </form>
-                </div>
+                    <div className="px-4 py-3 bg-gray-50 text-right sm:px-6">
+                      <button
+                        onClick={handleUpdate}
+                        type="submit"
+                        className="inline-block px-7 py-3 mr-2 bg-black text-white font-medium text-sm leading-snug uppercase rounded shadow-md hover:bg-red-900 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 active:shadow-lg transition duration-150 ease-in-out"
+                      >
+                        Save
+                      </button>
+                    </div>
+                  </div>
+                </form>
               </div>
             </div>
-          )}
-        </div>
+          </div>
+        )}
       </div>
-    </>
+    </div>
   );
 };

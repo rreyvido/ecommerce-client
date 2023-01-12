@@ -1,6 +1,6 @@
 const Footer = () => {
   return (
-    <footer className="text-center lg:text-left bg-white text-black-600">
+    <footer className="container mx-auto xl:px-32 text-center lg:text-left bg-white text-black-600">
       <div className="mx-6 py-10 text-center md:text-left">
         <div className="grid grid-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           <div className="">
@@ -76,10 +76,6 @@ const Footer = () => {
             </p>
           </div>
         </div>
-      </div>
-      <div className="text-center p-6 bg-gray-200">
-        <span>© 2023 Copyright:</span>
-        <span className="text-gray-600 font-semibold"> Bodimaji</span>
       </div>
     </footer>
   );
