@@ -3,9 +3,11 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { OrderCard } from "../components/Card";
 import Footer from "../components/Footer";
+import { CircleLoading } from "../components/Loading";
 import Navbar from "../components/Navbar";
 
 const Order = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const { currentUser } = useSelector((state) => state.user);
   const [orderList, setOrderList] = useState([]);
 
@@ -21,7 +23,10 @@ const Order = () => {
   };
 
   useEffect(() => {
-    getOrderList();
+    setIsLoading(true);
+    getOrderList().then((data) => {
+      setIsLoading(false);
+    });
   }, []);
 
   return (
@@ -37,14 +42,20 @@ const Order = () => {
               </h1>
             </div>
           </div>
-          {orderList ? (
-            <>
-              {orderList.map((o) => (
-                <OrderCard orderItem={o} key={o._id} />
-              ))}
-            </>
+          {isLoading ? (
+            <CircleLoading />
           ) : (
-            <> NO PRODUCT</>
+            <>
+              {orderList ? (
+                <>
+                  {orderList.map((o) => (
+                    <OrderCard orderItem={o} key={o._id} />
+                  ))}
+                </>
+              ) : (
+                <> NO PRODUCT</>
+              )}
+            </>
           )}
         </div>
       </div>

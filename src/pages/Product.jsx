@@ -5,8 +5,10 @@ import Navbar from "../components/Navbar";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
+import { CircleLoading } from "../components/Loading";
 
 export const ProductList = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const [product, setProduct] = useState([]);
 
   const fetchProduct = async () => {
@@ -17,7 +19,10 @@ export const ProductList = () => {
   };
 
   useEffect(() => {
-    fetchProduct();
+    setIsLoading(true);
+    fetchProduct().then((data) => {
+      setIsLoading(false);
+    });
   }, []);
 
   return (
@@ -33,11 +38,15 @@ export const ProductList = () => {
               </h1>
             </div>
           </div>
-          <div className="grid lg:grid-cols-4 gap-12 flex items-center">
-            {product.map((p) => (
-              <ProductCard product={p} key={p._id} />
-            ))}
-          </div>
+          {isLoading ? (
+            <CircleLoading />
+          ) : (
+            <div className="grid lg:grid-cols-4 gap-12 flex items-center">
+              {product.map((p) => (
+                <ProductCard product={p} key={p._id} />
+              ))}
+            </div>
+          )}
         </div>
       </div>
       <Footer />
@@ -46,6 +55,7 @@ export const ProductList = () => {
 };
 
 export const Product = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const { currentUser } = useSelector((state) => state.user);
 
   const path = useLocation().pathname.split("/")[2];
@@ -60,12 +70,16 @@ export const Product = () => {
   getProduct();
 
   useEffect(() => {
-    getProduct();
+    setIsLoading(true);
+    getProduct().then((data) => {
+      setIsLoading(false);
+    });
   }, [path]);
   return (
     <>
       <Navbar />
-      <SingleProductCard product={product} />
+      {isLoading ? <CircleLoading /> : <SingleProductCard product={product} />}
+
       <Footer />
     </>
   );

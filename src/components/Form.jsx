@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { loginStart, loginSuccess, loginFailed } from "../redux/userSlice";
 import { CheckoutCard } from "./Card";
-
+import { CircleLoading } from "../components/Loading";
 export const LoginForm = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -135,9 +135,9 @@ export const RegisterForm = () => {
       .post(process.env.REACT_APP_API_URL + "/user/register", credentials)
       .then((response) => {
         if (response.data.role === "admin") {
-          navigate("/dashboard");
+          navigate("/login");
         } else if (response.data.role === "customer") {
-          navigate("/");
+          navigate("/login");
         }
       })
       .catch((error) => {
@@ -246,6 +246,7 @@ export const RegisterForm = () => {
 };
 
 export const CheckoutForm = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const { currentUser } = useSelector((state) => state.user);
 
   const nameRef = useRef(null);
@@ -288,7 +289,10 @@ export const CheckoutForm = () => {
   };
 
   useEffect(() => {
-    getCart();
+    setIsLoading(true);
+    getCart().then((data) => {
+      setIsLoading(false);
+    });
   }, []);
 
   const handleCheckout = async (e) => {
@@ -318,170 +322,174 @@ export const CheckoutForm = () => {
   return (
     <div className="bg-gray-50">
       <div className="container p-12 mx-auto ">
-        <div className="flex flex-col w-full px-0 mx-auto md:flex-row">
-          <div className="flex flex-col md:w-full">
-            <h2 className="mb-4 font-bold md:text-xl text-heading ">
-              Shipping Address
-            </h2>
-            <div className="flex items-center">
-              <input
-                checked={isChecked}
-                onChange={checkHandler}
-                id="checked-checkbox"
-                type="checkbox"
-                value=""
-                className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-              />
-              <label
-                for="checked-checkbox"
-                className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-              >
-                Same as my current information
-              </label>
-            </div>
-            <form className="justify-center w-full mx-auto">
-              <div className="">
-                <div className="mt-4">
-                  <div className="w-full">
-                    <label className="block mb-3 text-sm font-semibold text-gray-500">
-                      Name
-                    </label>
-                    <input
-                      defaultValue={currentUser.data.name}
-                      onChange={handleChange}
-                      disabled={isDisabled}
-                      ref={nameRef}
-                      name="name"
-                      type="text"
-                      placeholder="Name"
-                      className="w-full px-4 py-3 text-sm border border-gray-300 rounded lg:text-sm"
-                    />
-                  </div>
-                </div>
-                <div className="mt-4">
-                  <div className="w-full">
-                    <label className="block mb-3 text-sm font-semibold text-gray-500">
-                      Email
-                    </label>
-                    <input
-                      defaultValue={currentUser.data.email}
-                      onChange={handleChange}
-                      disabled={isDisabled}
-                      ref={emailRef}
-                      name="email"
-                      type="text"
-                      placeholder="Email"
-                      className="w-full px-4 py-3 text-sm border border-gray-300 rounded lg:text-sm"
-                    />
+        {isLoading ? (
+          <CircleLoading />
+        ) : (
+          <div className="flex flex-col w-full px-0 mx-auto md:flex-row">
+            <div className="flex flex-col md:w-full">
+              <h2 className="mb-4 font-bold md:text-xl text-heading ">
+                Shipping Address
+              </h2>
+              <div className="flex items-center">
+                <input
+                  checked={isChecked}
+                  onChange={checkHandler}
+                  id="checked-checkbox"
+                  type="checkbox"
+                  value=""
+                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                />
+                <label
+                  for="checked-checkbox"
+                  className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                >
+                  Same as my current information
+                </label>
+              </div>
+              <form className="justify-center w-full mx-auto">
+                <div className="">
+                  <div className="mt-4">
+                    <div className="w-full">
+                      <label className="block mb-3 text-sm font-semibold text-gray-500">
+                        Name
+                      </label>
+                      <input
+                        defaultValue={currentUser.data.name}
+                        onChange={handleChange}
+                        disabled={isDisabled}
+                        ref={nameRef}
+                        name="name"
+                        type="text"
+                        placeholder="Name"
+                        className="w-full px-4 py-3 text-sm border border-gray-300 rounded lg:text-sm"
+                      />
+                    </div>
                   </div>
                   <div className="mt-4">
                     <div className="w-full">
-                      <label
-                        htmlFor="Address"
-                        className="block mb-3 text-sm font-semibold text-gray-500"
-                      >
-                        Address
+                      <label className="block mb-3 text-sm font-semibold text-gray-500">
+                        Email
                       </label>
-                      <textarea
-                        defaultValue={currentUser.data.address}
+                      <input
+                        defaultValue={currentUser.data.email}
                         onChange={handleChange}
                         disabled={isDisabled}
-                        ref={addressRef}
-                        className="w-full px-4 py-3 text-xs border border-gray-300 rounded lg:text-sm focus:outline-none focus:ring-1 focus:ring-blue-600"
-                        name="address"
-                        cols="20"
-                        rows="4"
-                        placeholder="Address"
-                      ></textarea>
+                        ref={emailRef}
+                        name="email"
+                        type="text"
+                        placeholder="Email"
+                        className="w-full px-4 py-3 text-sm border border-gray-300 rounded lg:text-sm"
+                      />
+                    </div>
+                    <div className="mt-4">
+                      <div className="w-full">
+                        <label
+                          htmlFor="Address"
+                          className="block mb-3 text-sm font-semibold text-gray-500"
+                        >
+                          Address
+                        </label>
+                        <textarea
+                          defaultValue={currentUser.data.address}
+                          onChange={handleChange}
+                          disabled={isDisabled}
+                          ref={addressRef}
+                          className="w-full px-4 py-3 text-xs border border-gray-300 rounded lg:text-sm focus:outline-none focus:ring-1 focus:ring-blue-600"
+                          name="address"
+                          cols="20"
+                          rows="4"
+                          placeholder="Address"
+                        ></textarea>
+                      </div>
+                    </div>
+                    <div className="space-x-0 lg:flex lg:space-x-4">
+                      <div className="w-full lg:w-1/2">
+                        <label className="block mb-3 text-sm font-semibold text-gray-500">
+                          City
+                        </label>
+                        <input
+                          defaultValue={currentUser.data.city}
+                          onChange={handleChange}
+                          disabled={isDisabled}
+                          ref={cityRef}
+                          name="city"
+                          type="text"
+                          placeholder="City"
+                          className="w-full px-4 py-3 text-sm border border-gray-300 rounded lg:text-sm focus:outline-none focus:ring-1 focus:ring-blue-600"
+                        />
+                      </div>
+                      <div className="w-full lg:w-1/2 ">
+                        <label className="block mb-3 text-sm font-semibold text-gray-500">
+                          Post Code
+                        </label>
+                        <input
+                          defaultValue={currentUser.data.zip}
+                          onChange={handleChange}
+                          disabled={isDisabled}
+                          ref={zipRef}
+                          name="zip"
+                          type="text"
+                          placeholder="Post Code"
+                          className="w-full px-4 py-3 text-sm border border-gray-300 rounded lg:text-sm focus:outline-none focus:ring-1 focus:ring-blue-600"
+                        />
+                      </div>
                     </div>
                   </div>
-                  <div className="space-x-0 lg:flex lg:space-x-4">
-                    <div className="w-full lg:w-1/2">
-                      <label className="block mb-3 text-sm font-semibold text-gray-500">
-                        City
-                      </label>
-                      <input
-                        defaultValue={currentUser.data.city}
-                        onChange={handleChange}
-                        disabled={isDisabled}
-                        ref={cityRef}
-                        name="city"
-                        type="text"
-                        placeholder="City"
-                        className="w-full px-4 py-3 text-sm border border-gray-300 rounded lg:text-sm focus:outline-none focus:ring-1 focus:ring-blue-600"
-                      />
-                    </div>
-                    <div className="w-full lg:w-1/2 ">
-                      <label className="block mb-3 text-sm font-semibold text-gray-500">
-                        Post Code
-                      </label>
-                      <input
-                        defaultValue={currentUser.data.zip}
-                        onChange={handleChange}
-                        disabled={isDisabled}
-                        ref={zipRef}
-                        name="zip"
-                        type="text"
-                        placeholder="Post Code"
-                        className="w-full px-4 py-3 text-sm border border-gray-300 rounded lg:text-sm focus:outline-none focus:ring-1 focus:ring-blue-600"
-                      />
-                    </div>
+                  <div className="mt-4">
+                    {cart ? (
+                      <>
+                        <button
+                          onClick={handleCheckout}
+                          className="w-full px-6 py-2 text-blue-200 bg-blue-600 hover:bg-blue-900"
+                        >
+                          Checkout
+                        </button>
+                      </>
+                    ) : (
+                      <>
+                        <button
+                          disabled
+                          onClick={handleCheckout}
+                          className="w-full px-6 py-2 text-blue-200 bg-blue-600 opacity-40 cursor-not-allowed"
+                        >
+                          Checkout
+                        </button>
+                      </>
+                    )}
                   </div>
                 </div>
-                <div className="mt-4">
+              </form>
+            </div>
+            <div className="flex flex-col w-full ml-0 lg:ml-12 lg:w-2/5">
+              <div className="pt-12 md:pt-0 2xl:ps-4">
+                <h2 className="text-xl font-bold">Order Summary</h2>
+                <div className="mt-8">
                   {cart ? (
                     <>
-                      <button
-                        onClick={handleCheckout}
-                        className="w-full px-6 py-2 text-blue-200 bg-blue-600 hover:bg-blue-900"
-                      >
-                        Checkout
-                      </button>
+                      {cart.map((c) => (
+                        <CheckoutCard cartItem={c} key={c._id} />
+                      ))}
                     </>
                   ) : (
-                    <>
-                      <button
-                        disabled
-                        onClick={handleCheckout}
-                        className="w-full px-6 py-2 text-blue-200 bg-blue-600 opacity-40 cursor-not-allowed"
-                      >
-                        Checkout
-                      </button>
-                    </>
+                    <> NO PRODUCT</>
                   )}
                 </div>
-              </div>
-            </form>
-          </div>
-          <div className="flex flex-col w-full ml-0 lg:ml-12 lg:w-2/5">
-            <div className="pt-12 md:pt-0 2xl:ps-4">
-              <h2 className="text-xl font-bold">Order Summary</h2>
-              <div className="mt-8">
-                {cart ? (
-                  <>
-                    {cart.map((c) => (
-                      <CheckoutCard cartItem={c} key={c._id} />
-                    ))}
-                  </>
-                ) : (
-                  <> NO PRODUCT</>
-                )}
-              </div>
-              <div className="flex p-4 mt-4">
-                <h2 className="text-xl font-bold">Summary</h2>
-              </div>
-              <div className="flex items-center w-full py-4 text-sm font-semibold lg:py-5 lg:px-3 text-heading last:border-b-0 last:text-base last:pb-0">
-                Subtotal<span className="ml-2">Rp{bill}</span>
-              </div>
-              <div className="flex items-center w-full py-4 text-sm font-semibold border-b border-gray-300 lg:py-5 lg:px-3 text-heading last:border-b-0 last:text-base last:pb-0">
-                Delivery Fee<span className="ml-2">Rp0</span>
-              </div>
-              <div className="flex items-center w-full py-4 text-sm font-semibold border-b border-gray-300 lg:py-5 lg:px-3 text-heading last:border-b-0 last:text-base last:pb-0">
-                Total<span className="ml-2">Rp{bill}</span>
+                <div className="flex p-4 mt-4">
+                  <h2 className="text-xl font-bold">Summary</h2>
+                </div>
+                <div className="flex items-center w-full py-4 text-sm font-semibold lg:py-5 lg:px-3 text-heading last:border-b-0 last:text-base last:pb-0">
+                  Subtotal<span className="ml-2">Rp{bill}</span>
+                </div>
+                <div className="flex items-center w-full py-4 text-sm font-semibold border-b border-gray-300 lg:py-5 lg:px-3 text-heading last:border-b-0 last:text-base last:pb-0">
+                  Delivery Fee<span className="ml-2">Rp0</span>
+                </div>
+                <div className="flex items-center w-full py-4 text-sm font-semibold border-b border-gray-300 lg:py-5 lg:px-3 text-heading last:border-b-0 last:text-base last:pb-0">
+                  Total<span className="ml-2">Rp{bill}</span>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );
