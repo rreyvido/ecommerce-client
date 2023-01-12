@@ -113,6 +113,8 @@ export const SingleProductCard = ({ product }) => {
   const id = location.pathname.split("/")[2];
   const [quantity, setQuantity] = useState(1);
 
+  let navigate = useNavigate();
+
   const handleQuantity = (type) => {
     if (type === "dec") {
       quantity > 1 && setQuantity(quantity - 1);
@@ -123,15 +125,15 @@ export const SingleProductCard = ({ product }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
+    if (currentUser) {
       const resp = await axios.post(process.env.REACT_APP_API_URL + `/cart/`, {
         owner: currentUser.data._id,
         productId: id,
         quantity: quantity,
       });
       alert("added to cart");
-    } catch (error) {
-      alert(error.response);
+    } else {
+      navigate("/login");
     }
   };
   return (
