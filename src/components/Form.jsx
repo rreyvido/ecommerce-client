@@ -24,7 +24,7 @@ export const LoginForm = () => {
       .then((response) => {
         if (response.data.role === "admin") {
           dispatch(loginSuccess(response));
-          navigate("/dashboard");
+          navigate("/");
         } else if (response.data.role === "customer") {
           dispatch(loginSuccess(response));
           navigate("/");
