@@ -1,12 +1,15 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../redux/userSlice";
+import React from "react";
 
 const Navbar = () => {
   const { currentUser } = useSelector((state) => state.user);
 
   let navigate = useNavigate();
   let dispatch = useDispatch();
+
+  const [open, setOpen] = React.useState(false);
 
   const handleLogout = async (e) => {
     e.preventDefault();
@@ -85,29 +88,75 @@ const Navbar = () => {
             {currentUser ? (
               <>
                 <li>
-                  <Link
-                    to="/checkout"
-                    className="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-red-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                  <button
+                    onMouseOver={() => setOpen(true)}
+                    onMouseLeave={() => setOpen(false)}
+                    className="flex items-center justify-between w-full py-2 pl-3 pr-4 font-medium text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:w-auto dark:text-gray-400 dark:hover:text-white dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 md:dark:hover:bg-transparent"
                   >
-                    Cart
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to="/order"
-                    className="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-red-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
-                  >
-                    My Order
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to="/"
-                    className="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-red-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
-                    onClick={handleLogout}
-                  >
-                    Logout
-                  </Link>
+                    {currentUser.data.name}
+                    <svg
+                      className="w-4 h-4 ml-1"
+                      aria-hidden="true"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                        clip-rule="evenodd"
+                      ></path>
+                    </svg>
+                  </button>
+                  {open ? (
+                    <>
+                      <div
+                        className="absolute z-10 font-normal bg-white divide-y divide-gray-100 rounded shadow w-44 dark:bg-gray-700 dark:divide-gray-600"
+                        onMouseOver={() => setOpen(true)}
+                        onMouseLeave={() => setOpen(false)}
+                      >
+                        <ul
+                          className="py-1 text-sm text-gray-700 dark:text-gray-400"
+                          aria-labelledby="dropdownLargeButton"
+                        >
+                          <li>
+                            <Link
+                              to="/profile"
+                              className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                            >
+                              My Profile
+                            </Link>
+                          </li>
+
+                          <li>
+                            <Link
+                              to="/checkout"
+                              className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                            >
+                              Cart
+                            </Link>
+                          </li>
+                          <li>
+                            <Link
+                              to="/order"
+                              className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                            >
+                              My Order
+                            </Link>
+                          </li>
+                        </ul>
+                        <div className="py-1">
+                          <Link
+                            to="/"
+                            onClick={handleLogout}
+                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white"
+                          >
+                            Logout
+                          </Link>
+                        </div>
+                      </div>
+                    </>
+                  ) : null}
                 </li>
               </>
             ) : (
