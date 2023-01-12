@@ -520,7 +520,7 @@ export const ProfileForm = () => {
     const zip = zipRef.current.value;
     const credentials = { name: name, address: address, city: city, zip: zip };
     await axios.put(
-      process.env.REACT_APP_LOCAL_API_URL + `/user/` + userId,
+      process.env.REACT_APP_API_URL + `/user/` + userId,
       credentials
     );
   };
