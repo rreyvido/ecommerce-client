@@ -499,6 +499,28 @@ export const ProfileForm = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { currentUser } = useSelector((state) => state.user);
 
+  const userId = currentUser.data._id;
+  const nameRef = useRef(null);
+  const userRef = useRef(null);
+  const emailRef = useRef(null);
+  const addressRef = useRef(null);
+  const cityRef = useRef(null);
+  const zipRef = useRef(null);
+  const passwordRef = useRef(null);
+
+  const handleUpdate = async (e) => {
+    e.preventDefault();
+    const name = nameRef.current.value;
+    const address = addressRef.current.value;
+    const city = cityRef.current.value;
+    const zip = zipRef.current.value;
+    const credentials = { name: name, address: address, city: city, zip: zip };
+    await axios.put(
+      process.env.REACT_APP_LOCAL_API_URL + `/user/` + userId,
+      credentials
+    );
+  };
+
   return (
     <>
       <div className="px-6 py-12 md:px-12 bg-gray-50 text-gray-800 text-center lg:text-left">
@@ -555,6 +577,7 @@ export const ProfileForm = () => {
                             </label>
                             <input
                               defaultValue={currentUser.data.name}
+                              ref={nameRef}
                               name="name"
                               type="text"
                               placeholder="Name"
@@ -568,6 +591,7 @@ export const ProfileForm = () => {
                             </label>
                             <input
                               defaultValue={currentUser.data.username}
+                              ref={userRef}
                               disabled
                               name="username"
                               type="text"
@@ -588,6 +612,7 @@ export const ProfileForm = () => {
                               name="email"
                               type="text"
                               placeholder="Email"
+                              ref={emailRef}
                               className="mt-1 block w-full px-4 py-3 text-sm border border-gray-300 rounded lg:text-sm"
                             />
                           </div>
@@ -600,6 +625,7 @@ export const ProfileForm = () => {
                             </label>
                             <textarea
                               defaultValue={currentUser.data.address}
+                              ref={addressRef}
                               type="text"
                               name="street_address"
                               id="street_address"
@@ -615,6 +641,7 @@ export const ProfileForm = () => {
                             </label>
                             <input
                               defaultValue={currentUser.data.city}
+                              ref={cityRef}
                               type="text"
                               name="city"
                               id="city"
@@ -632,6 +659,7 @@ export const ProfileForm = () => {
                             </label>
                             <input
                               defaultValue={currentUser.data.zip}
+                              ref={zipRef}
                               type="text"
                               name="postal_code"
                               id="postal_code"
@@ -649,6 +677,8 @@ export const ProfileForm = () => {
                             </label>
                             <input
                               disabled
+                              defaultValue={currentUser.data.password}
+                              ref={passwordRef}
                               type="password"
                               className="w-full px-4 py-3 text-sm border border-gray-300 rounded lg:text-sm"
                             />
@@ -660,6 +690,7 @@ export const ProfileForm = () => {
                       </div>
                       <div className="px-4 py-3 bg-gray-50 text-right sm:px-6">
                         <button
+                          onClick={handleUpdate}
                           type="submit"
                           className="inline-block px-7 py-3 mr-2 bg-black text-white font-medium text-sm leading-snug uppercase rounded shadow-md hover:bg-red-900 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 active:shadow-lg transition duration-150 ease-in-out"
                         >
