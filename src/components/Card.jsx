@@ -155,9 +155,9 @@ export const SingleProductCard = ({ product }) => {
                 <svg
                   fill="currentColor"
                   stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
                   className="w-4 h-4 text-red-500"
                   viewBox="0 0 24 24"
                 >
@@ -166,9 +166,9 @@ export const SingleProductCard = ({ product }) => {
                 <svg
                   fill="currentColor"
                   stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
                   className="w-4 h-4 text-red-500"
                   viewBox="0 0 24 24"
                 >
@@ -177,9 +177,9 @@ export const SingleProductCard = ({ product }) => {
                 <svg
                   fill="currentColor"
                   stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
                   className="w-4 h-4 text-red-500"
                   viewBox="0 0 24 24"
                 >
@@ -188,9 +188,9 @@ export const SingleProductCard = ({ product }) => {
                 <svg
                   fill="currentColor"
                   stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
                   className="w-4 h-4 text-red-500"
                   viewBox="0 0 24 24"
                 >
@@ -199,9 +199,9 @@ export const SingleProductCard = ({ product }) => {
                 <svg
                   fill="none"
                   stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
                   className="w-4 h-4 text-red-500"
                   viewBox="0 0 24 24"
                 >
@@ -277,9 +277,9 @@ export const SingleProductCard = ({ product }) => {
               <button className="rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center text-gray-500 ml-4">
                 <svg
                   fill="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
                   className="w-5 h-5"
                   viewBox="0 0 24 24"
                 >
@@ -413,7 +413,7 @@ export const OrderCard = ({ orderItem }) => {
                       Rp{orderItem.bill}
                     </div>
                   </div>
-                  <button className="flex-no-shrink bg-green-400 hover:bg-green-500 px-5 ml-4 py-2 text-xs shadow-sm hover:shadow-lg font-medium tracking-wider border-2 border-green-300 hover:border-green-500 text-white rounded-full transition ease-in duration-300">
+                  <button className="flex-no-shrink inline-block px-7 py-3 mr-2 bg-black text-white font-medium text-sm leading-snug uppercase rounded shadow-md hover:bg-red-900 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 active:shadow-lg transition duration-150 ease-in-out">
                     Order Detail
                   </button>
                 </div>
