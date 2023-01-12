@@ -294,19 +294,20 @@ export const SingleProductCard = ({ product }) => {
   );
 };
 
-export const CheckoutCard = ({ cartItem }) => {
+export const CheckoutCard = ({ cartItem, getCart }) => {
   const { currentUser } = useSelector((state) => state.user);
   const handleDelete = async (e) => {
     e.preventDefault();
     try {
-      const resp = await axios.delete(
-        process.env.REACT_APP_API_URL + `/cart/`,
-        {
+      const resp = await axios
+        .delete(process.env.REACT_APP_API_URL + `/cart/`, {
           data: { _id: currentUser.data._id, productId: cartItem.productId },
-        }
-      );
+        })
+        .then(() => {
+          getCart();
+        });
       alert("product deleted from cart");
-      window.location.reload();
+      // window.location.reload();
     } catch (error) {
       alert(error);
     }

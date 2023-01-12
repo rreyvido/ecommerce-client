@@ -467,7 +467,11 @@ export const CheckoutForm = () => {
                   {cart ? (
                     <>
                       {cart.map((c) => (
-                        <CheckoutCard cartItem={c} key={c._id} />
+                        <CheckoutCard
+                          cartItem={c}
+                          key={c._id}
+                          getCart={getCart}
+                        />
                       ))}
                     </>
                   ) : (
