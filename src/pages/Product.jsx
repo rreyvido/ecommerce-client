@@ -67,14 +67,13 @@ export const Product = () => {
     );
     setProduct(data);
   };
-  getProduct();
 
   useEffect(() => {
     setIsLoading(true);
     getProduct().then((data) => {
       setIsLoading(false);
     });
-  }, [path]);
+  }, []);
   return (
     <>
       <Navbar />
