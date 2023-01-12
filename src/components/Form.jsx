@@ -307,7 +307,7 @@ export const CheckoutForm = () => {
         credentials
       )
       .then((response) => {
-        alert(response.data.message);
+        alert("Checkout Success");
         navigate("/success");
       })
       .catch((error) => {
