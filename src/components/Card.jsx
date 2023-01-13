@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { addProduct, removeProduct } from "../redux/cartSlice";
 
 export const Card = () => {
   return (
@@ -114,6 +115,8 @@ export const SingleProductCard = ({
   fetchWishlist,
 }) => {
   const { currentUser } = useSelector((state) => state.user);
+  const currentProducts = useSelector((state) => state.cart.products);
+
   const location = useLocation();
   const id = location.pathname.split("/")[2];
   const [quantity, setQuantity] = useState(1);
@@ -123,6 +126,7 @@ export const SingleProductCard = ({
   }
 
   let navigate = useNavigate();
+  let dispatch = useDispatch();
 
   const handleQuantity = (type) => {
     if (type === "dec") {
@@ -135,12 +139,16 @@ export const SingleProductCard = ({
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (currentUser) {
-      const resp = await axios.post(process.env.REACT_APP_API_URL + `/cart/`, {
-        owner: currentUser.data._id,
-        productId: id,
-        quantity: quantity,
-      });
-      alert("added to cart");
+      const resp = await axios
+        .post(process.env.REACT_APP_API_URL + `/cart/`, {
+          owner: currentUser.data._id,
+          productId: id,
+          quantity: quantity,
+        })
+        .then((response) => {
+          dispatch(addProduct(response));
+          alert("added to cart");
+        });
     } else {
       navigate("/login");
     }
@@ -373,6 +381,7 @@ export const SingleProductCard = ({
 
 export const CheckoutCard = ({ cartItem, getCart }) => {
   const { currentUser } = useSelector((state) => state.user);
+  let dispatch = useDispatch();
   const handleDelete = async (e) => {
     e.preventDefault();
     try {
@@ -380,10 +389,11 @@ export const CheckoutCard = ({ cartItem, getCart }) => {
         .delete(process.env.REACT_APP_API_URL + `/cart/`, {
           data: { _id: currentUser.data._id, productId: cartItem.productId },
         })
-        .then(() => {
+        .then((response) => {
+          dispatch(removeProduct(response));
           getCart();
+          alert("product deleted from cart");
         });
-      alert("product deleted from cart");
       // window.location.reload();
     } catch (error) {
       alert(error);

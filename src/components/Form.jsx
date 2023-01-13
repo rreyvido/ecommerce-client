@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { loginStart, loginSuccess, loginFailed } from "../redux/userSlice";
 import { CheckoutCard } from "./Card";
 import { CircleLoading } from "../components/Loading";
+import { getProduct } from "../redux/cartSlice";
 export const LoginForm = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -271,6 +272,7 @@ export const CheckoutForm = () => {
     );
 
     if (data) {
+      dispatch(getProduct(data));
       setCart(data.products);
       setBill(data.bill);
     }
