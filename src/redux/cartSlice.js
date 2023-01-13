@@ -18,7 +18,7 @@ const cartSlice = createSlice({
       state.products = action.payload;
     },
     getQuantity: (state, action) => {
-      state.quantity = action.payload;
+      return { ...state, quantity: action.payload };
     },
   },
 });
