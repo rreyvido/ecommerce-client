@@ -2,7 +2,12 @@ import axios from "axios";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { addProduct, removeProduct } from "../redux/cartSlice";
+import {
+  addProduct,
+  addQuantity,
+  getQuantity,
+  removeProduct,
+} from "../redux/cartSlice";
 
 export const Card = () => {
   return (
@@ -146,7 +151,7 @@ export const SingleProductCard = ({
           quantity: quantity,
         })
         .then((response) => {
-          dispatch(addProduct(response));
+          dispatch(addQuantity(quantity));
           alert("added to cart");
         });
     } else {
@@ -390,7 +395,11 @@ export const CheckoutCard = ({ cartItem, getCart }) => {
           data: { _id: currentUser.data._id, productId: cartItem.productId },
         })
         .then((response) => {
-          dispatch(removeProduct(response));
+          const products = response.data.products;
+          const newQty = products
+            .map((item) => item.quantity)
+            .reduce((prev, next) => prev + next, 0);
+          dispatch(getQuantity(newQty));
           getCart();
           alert("product deleted from cart");
         });

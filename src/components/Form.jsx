@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { loginStart, loginSuccess, loginFailed } from "../redux/userSlice";
 import { CheckoutCard } from "./Card";
 import { CircleLoading } from "../components/Loading";
-import { getProduct, getQuantity } from "../redux/cartSlice";
+import { getQuantity } from "../redux/cartSlice";
 export const LoginForm = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -249,6 +249,7 @@ export const RegisterForm = () => {
 export const CheckoutForm = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { currentUser } = useSelector((state) => state.user);
+  const currentCart = useSelector((state) => state.cart);
 
   const nameRef = useRef(null);
   const emailRef = useRef(null);
@@ -268,20 +269,20 @@ export const CheckoutForm = () => {
 
   const getCart = async () => {
     const { data } = await axios.get(
-      process.env.REACT_APP_API_URL + `/cart/${currentUser.data._id}`
+      process.env.REACT_APP_LOCAL_API_URL + `/cart/${currentUser.data._id}`
     );
 
     let arrQty = data.products;
 
-    const totalBill = arrQty.reduce((accumulator, object) => {
-      return accumulator + object.quantity;
-    }, 0);
-
     if (data) {
-      dispatch(getProduct(data));
-      dispatch(getQuantity(totalBill));
       setCart(data.products);
       setBill(data.bill);
+      if (arrQty) {
+        const totalQty = arrQty.reduce((accumulator, object) => {
+          return accumulator + object.quantity;
+        }, 0);
+        dispatch(getQuantity(totalQty));
+      }
     }
   };
 
@@ -445,7 +446,7 @@ export const CheckoutForm = () => {
                     </div>
                   </div>
                   <div className="mt-4">
-                    {cart ? (
+                    {currentCart.quantity > 0 ? (
                       <>
                         <button
                           onClick={handleCheckout}
@@ -473,7 +474,7 @@ export const CheckoutForm = () => {
               <div className="pt-12 md:pt-0 2xl:ps-4">
                 <h2 className="text-xl font-bold">Order Summary</h2>
                 <div className="mt-8">
-                  {cart ? (
+                  {currentCart.quantity > 0 ? (
                     <>
                       {cart.map((c) => (
                         <CheckoutCard
