@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { loginStart, loginSuccess, loginFailed } from "../redux/userSlice";
 import { CheckoutCard } from "./Card";
 import { CircleLoading } from "../components/Loading";
-import { getProduct } from "../redux/cartSlice";
+import { getProduct, getQuantity } from "../redux/cartSlice";
 export const LoginForm = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -271,8 +271,15 @@ export const CheckoutForm = () => {
       process.env.REACT_APP_API_URL + `/cart/${currentUser.data._id}`
     );
 
+    let arrQty = data.products;
+
+    const totalBill = arrQty.reduce((accumulator, object) => {
+      return accumulator + object.quantity;
+    }, 0);
+
     if (data) {
       dispatch(getProduct(data));
+      dispatch(getQuantity(totalBill));
       setCart(data.products);
       setBill(data.bill);
     }
