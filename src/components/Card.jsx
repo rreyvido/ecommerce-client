@@ -107,11 +107,15 @@ export const ProductCard = ({ product }) => {
   );
 };
 
-export const SingleProductCard = ({ product, wishlist }) => {
+export const SingleProductCard = ({ product, wishlist, setWishlist }) => {
   const { currentUser } = useSelector((state) => state.user);
   const location = useLocation();
   const id = location.pathname.split("/")[2];
   const [quantity, setQuantity] = useState(1);
+
+  if (!wishlist) {
+    setWishlist([]);
+  }
 
   let navigate = useNavigate();
 

@@ -100,7 +100,11 @@ export const Product = () => {
             {isLoading ? (
               <CircleLoading />
             ) : (
-              <SingleProductCard product={product} wishlist={wishlist} />
+              <SingleProductCard
+                product={product}
+                wishlist={wishlist}
+                setWishlist={setWishlist}
+              />
             )}
           </div>
         </div>
