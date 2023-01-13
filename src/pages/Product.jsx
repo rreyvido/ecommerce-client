@@ -33,7 +33,7 @@ export const ProductList = () => {
           <div className="grid lg:grid-cols-2 gap-12 flex-nowrap">
             <div className="mt-12 lg:mt-0">
               <h1 className="text-5xl md:text-6xl xl:text-7xl font-bold tracking-tight mb-12">
-                Product
+                Product List
                 <br />
               </h1>
             </div>
@@ -60,6 +60,7 @@ export const Product = () => {
 
   const path = useLocation().pathname.split("/")[2];
   const [product, setProduct] = useState({});
+  const [wishlist, setWishlist] = useState([]);
 
   const getProduct = async () => {
     const { data } = await axios.get(
@@ -68,8 +69,18 @@ export const Product = () => {
     setProduct(data);
   };
 
+  const fetchWishlist = async () => {
+    const { data } = await axios.get(
+      process.env.REACT_APP_LOCAL_API_URL + "/wishlist/" + currentUser.data._id
+    );
+    setWishlist(data.products);
+  };
+
   useEffect(() => {
     setIsLoading(true);
+    if (currentUser) {
+      fetchWishlist();
+    }
     getProduct().then((data) => {
       setIsLoading(false);
     });
@@ -89,7 +100,7 @@ export const Product = () => {
             {isLoading ? (
               <CircleLoading />
             ) : (
-              <SingleProductCard product={product} />
+              <SingleProductCard product={product} wishlist={wishlist} />
             )}
           </div>
         </div>

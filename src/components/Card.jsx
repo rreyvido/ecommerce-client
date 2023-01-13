@@ -107,7 +107,7 @@ export const ProductCard = ({ product }) => {
   );
 };
 
-export const SingleProductCard = ({ product }) => {
+export const SingleProductCard = ({ product, wishlist }) => {
   const { currentUser } = useSelector((state) => state.user);
   const location = useLocation();
   const id = location.pathname.split("/")[2];
@@ -136,6 +136,13 @@ export const SingleProductCard = ({ product }) => {
       navigate("/login");
     }
   };
+
+  const onWishlist = wishlist.some((w) => w.productId === product._id);
+
+  const handleWishlist = async (e) => {
+    e.preventDefault();
+  };
+
   return (
     <section className="text-gray-700 body-font overflow-hidden bg-white rounded-lg">
       <div className="container px-5 py-24 mx-auto">
@@ -276,17 +283,33 @@ export const SingleProductCard = ({ product }) => {
                   Add to Cart
                 </button>
               )}
-              <button className="rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center text-gray-500 ml-4">
-                <svg
-                  fill="currentColor"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  className="w-5 h-5"
-                  viewBox="0 0 24 24"
-                >
-                  <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"></path>
-                </svg>
+              <button
+                onClick={handleWishlist}
+                className="rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center text-gray-500 ml-4"
+              >
+                {onWishlist ? (
+                  <svg
+                    fill="red"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    className="w-5 h-5"
+                    viewBox="0 0 24 24"
+                  >
+                    <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"></path>
+                  </svg>
+                ) : (
+                  <svg
+                    fill="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    className="w-5 h-5"
+                    viewBox="0 0 24 24"
+                  >
+                    <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"></path>
+                  </svg>
+                )}
               </button>
             </div>
           </div>
