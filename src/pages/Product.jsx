@@ -104,6 +104,7 @@ export const Product = () => {
                 product={product}
                 wishlist={wishlist}
                 setWishlist={setWishlist}
+                fetchWishlist={fetchWishlist}
               />
             )}
           </div>

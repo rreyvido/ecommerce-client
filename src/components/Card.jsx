@@ -107,7 +107,12 @@ export const ProductCard = ({ product }) => {
   );
 };
 
-export const SingleProductCard = ({ product, wishlist, setWishlist }) => {
+export const SingleProductCard = ({
+  product,
+  wishlist,
+  setWishlist,
+  fetchWishlist,
+}) => {
   const { currentUser } = useSelector((state) => state.user);
   const location = useLocation();
   const id = location.pathname.split("/")[2];
@@ -145,6 +150,24 @@ export const SingleProductCard = ({ product, wishlist, setWishlist }) => {
 
   const handleWishlist = async (e) => {
     e.preventDefault();
+    if (currentUser) {
+      try {
+        const resp = await axios
+          .post(process.env.REACT_APP_LOCAL_API_URL + `/wishlist/`, {
+            owner: currentUser.data._id,
+            productId: id,
+            quantity: 1,
+          })
+          .then(() => {
+            fetchWishlist();
+          });
+        alert("added to wishlist");
+      } catch (error) {
+        console.error(error.response.data);
+      }
+    } else {
+      navigate("/login");
+    }
   };
 
   return (
