@@ -2,6 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../redux/userSlice";
 import React from "react";
+import { resetQuantity } from "../redux/cartSlice";
 
 const Navbar = () => {
   const { currentUser } = useSelector((state) => state.user);
@@ -16,6 +17,7 @@ const Navbar = () => {
   const handleLogout = async (e) => {
     e.preventDefault();
     dispatch(logout());
+    dispatch(resetQuantity());
     navigate("/");
   };
 
