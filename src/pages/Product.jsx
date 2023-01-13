@@ -71,7 +71,7 @@ export const Product = () => {
 
   const fetchWishlist = async () => {
     const { data } = await axios.get(
-      process.env.REACT_APP_LOCAL_API_URL + "/wishlist/" + currentUser.data._id
+      process.env.REACT_APP_API_URL + "/wishlist/" + currentUser.data._id
     );
     setWishlist(data.products);
   };

@@ -148,12 +148,12 @@ export const SingleProductCard = ({
 
   const onWishlist = wishlist.some((w) => w.productId === product._id);
 
-  const handleWishlist = async (e) => {
+  const addWishlist = async (e) => {
     e.preventDefault();
     if (currentUser) {
       try {
         const resp = await axios
-          .post(process.env.REACT_APP_LOCAL_API_URL + `/wishlist/`, {
+          .post(process.env.REACT_APP_API_URL + `/wishlist/`, {
             owner: currentUser.data._id,
             productId: id,
             quantity: 1,
@@ -164,6 +164,26 @@ export const SingleProductCard = ({
         alert("added to wishlist");
       } catch (error) {
         console.error(error.response.data);
+      }
+    } else {
+      navigate("/login");
+    }
+  };
+
+  const removeWishlist = async (e) => {
+    e.preventDefault();
+    if (currentUser) {
+      try {
+        const resp = await axios
+          .delete(process.env.REACT_APP_API_URL + `/wishlist/`, {
+            data: { _id: currentUser.data._id, productId: id },
+          })
+          .then(() => {
+            fetchWishlist();
+          });
+        alert("removed from wishlist");
+      } catch (error) {
+        alert(error);
       }
     } else {
       navigate("/login");
@@ -310,11 +330,11 @@ export const SingleProductCard = ({
                   Add to Cart
                 </button>
               )}
-              <button
-                onClick={handleWishlist}
-                className="rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center text-gray-500 ml-4"
-              >
-                {onWishlist ? (
+              {onWishlist ? (
+                <button
+                  onClick={removeWishlist}
+                  className="rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center text-gray-500 ml-4"
+                >
                   <svg
                     fill="red"
                     strokeLinecap="round"
@@ -325,7 +345,12 @@ export const SingleProductCard = ({
                   >
                     <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"></path>
                   </svg>
-                ) : (
+                </button>
+              ) : (
+                <button
+                  onClick={addWishlist}
+                  className="rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center text-gray-500 ml-4"
+                >
                   <svg
                     fill="currentColor"
                     strokeLinecap="round"
@@ -336,8 +361,8 @@ export const SingleProductCard = ({
                   >
                     <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"></path>
                   </svg>
-                )}
-              </button>
+                </button>
+              )}
             </div>
           </div>
         </div>
