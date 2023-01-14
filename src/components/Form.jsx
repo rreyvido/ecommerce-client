@@ -269,7 +269,7 @@ export const CheckoutForm = () => {
 
   const getCart = async () => {
     const { data } = await axios.get(
-      process.env.REACT_APP_LOCAL_API_URL + `/cart/${currentUser.data._id}`
+      process.env.REACT_APP_API_URL + `/cart/${currentUser.data._id}`
     );
 
     let arrQty = data.products;
